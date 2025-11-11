@@ -376,6 +376,6 @@ sequenceDiagram
 - **Analytics Domain**: Reporting and analytics
 
 ### Integration Points
-- Order Service → Inventory Service (stock reservation)
-- Order Service → Product Catalog Service (product information)
+- External clients/services → Inventory Service (stock reservation/release)
+- External clients/services → Product Catalog Service (product information)
 - Notification Service → Inventory Service (low stock alerts)

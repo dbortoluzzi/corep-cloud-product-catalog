@@ -97,7 +97,7 @@ public class InventoryService {
 
     /**
      * Reserve stock (for orders)
-     * In microservices: this would be called by Order Service
+     * In microservices: this would be called by external clients/services
      */
     public InventoryDTO reserveStock(Long productId, Integer quantity) {
         Inventory inventory = inventoryRepository.findByProductId(productId)
@@ -117,7 +117,7 @@ public class InventoryService {
 
     /**
      * Release reserved stock (when order is cancelled)
-     * In microservices: this would be called by Order Service
+     * In microservices: this would be called by external clients/services
      */
     public InventoryDTO releaseStock(Long productId, Integer quantity) {
         Inventory inventory = inventoryRepository.findByProductId(productId)

@@ -71,7 +71,7 @@ public class InventoryController {
 
     /**
      * Reserve stock (for orders)
-     * In microservices: this would be called by Order Service
+     * In microservices: this would be called by external clients/services
      */
     @PostMapping("/product/{productId}/reserve")
     public ResponseEntity<InventoryDTO> reserveStock(
@@ -83,7 +83,7 @@ public class InventoryController {
 
     /**
      * Release reserved stock (when order is cancelled)
-     * In microservices: this would be called by Order Service
+     * In microservices: this would be called by external clients/services
      */
     @PostMapping("/product/{productId}/release")
     public ResponseEntity<InventoryDTO> releaseStock(
