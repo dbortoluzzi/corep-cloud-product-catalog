@@ -52,7 +52,7 @@ Database (H2/PostgreSQL)
 ## 🚀 Prerequisites
 
 - Java 17 or higher
-- Maven 3.6+
+- Maven 3.6+ (or use Maven Wrapper - `./mvnw` - included in project)
 - (Optional) Docker for containerization
 
 ## 📥 Installation and Setup
@@ -65,22 +65,74 @@ cd 01-monolith
 
 ### 2. Build the project
 
+#### Standard JAR Build
+
+Using Maven Wrapper (recommended - uses project's Maven version):
+```bash
+./mvnw clean install
+```
+
+Or using global Maven installation:
 ```bash
 mvn clean install
 ```
+
+This will create a standard JAR file in `target/product-catalog-service-1.0.0-SNAPSHOT.jar`.
+
+#### Native Build (GraalVM)
+
+You can also build a native executable using GraalVM Native Image for faster startup times and lower memory footprint.
+
+**Prerequisites:**
+- GraalVM 21.x or 22.x (Community or Enterprise Edition)
+- `GRAALVM_HOME` environment variable set
+- Native Image component installed: `gu install native-image`
+
+**Build native executable:**
+
+Using Maven Wrapper:
+```bash
+./mvnw -Pnative native:compile
+```
+
+Or as part of the package phase:
+```bash
+./mvnw -Pnative clean package
+```
+
+(Replace `./mvnw` with `mvn` if using global Maven installation)
+
+The native executable will be generated in:
+- Linux/Mac: `target/product-catalog-service`
+- Windows: `target\product-catalog-service.exe`
+
+**Run the native executable:**
+
+```bash
+# Linux/Mac
+./target/product-catalog-service
+
+# Windows
+target\product-catalog-service.exe
+```
+
+**Note:** Native builds take significantly longer (several minutes) but produce an optimized standalone executable with:
+- ⚡ Faster startup time (milliseconds instead of seconds)
+- 💾 Lower memory footprint
+- 📦 Single executable file (no JVM required)
 
 ### 3. Run the application
 
 #### Development Profile (default - uses H2 in-memory database)
 
+Using Maven Wrapper:
 ```bash
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
 Or explicitly:
-
 ```bash
-mvn spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=dev
+./mvnw spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=dev
 ```
 
 #### Production Profile (uses PostgreSQL)
@@ -88,7 +140,7 @@ mvn spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=dev
 First, ensure PostgreSQL is running, then:
 
 ```bash
-mvn spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=prod
+./mvnw spring-boot:run -Dspring-boot.run.arguments=--spring.profiles.active=prod
 ```
 
 Or set environment variables:
@@ -98,8 +150,10 @@ export SPRING_PROFILES_ACTIVE=prod
 export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/productdb
 export SPRING_DATASOURCE_USERNAME=admin
 export SPRING_DATASOURCE_PASSWORD=password
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
+
+(Replace `./mvnw` with `mvn` if using global Maven installation)
 
 The application will be available at `http://localhost:8080`
 
