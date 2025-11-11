@@ -153,10 +153,14 @@ erDiagram
 
 **FR-8**: Release Stock
 - **Actor**: Order Service (future)
-- **Precondition**: Stock is reserved
-- **Postcondition**: Reserved stock released
+- **Precondition**: Stock is reserved (reservedQuantity > 0)
+- **Postcondition**: Reserved stock released back to available inventory
 - **Input**: Product ID and quantity to release
-- **Output**: Updated inventory
+- **Output**: Updated inventory (reservedQuantity decreased, availableQuantity increased)
+- **Business Rules**:
+  - Cannot release more stock than currently reserved
+  - Released stock becomes available again for new reservations
+  - Used when order is cancelled or times out
 
 **FR-9**: Low Stock Alert
 - **Actor**: Warehouse Manager
@@ -293,7 +297,34 @@ sequenceDiagram
 
 **Business Rule**: Cannot reserve more than available stock.
 
-### Workflow 3: Product Deletion
+### Workflow 3: Stock Release
+
+```mermaid
+sequenceDiagram
+    participant OrderService
+    participant InventoryService
+    participant Database
+
+    OrderService->>InventoryService: Release Stock (productId, qty)
+    InventoryService->>Database: Check Reserved Quantity
+    Database-->>InventoryService: Current Reserved Stock
+    alt Sufficient Reserved Stock
+        InventoryService->>Database: Decrease Reserved Quantity
+        Database-->>InventoryService: Updated Inventory
+        InventoryService-->>OrderService: Stock Released
+    else Insufficient Reserved Stock
+        InventoryService-->>OrderService: Error: Not enough reserved stock
+    end
+```
+
+**Business Rule**: Cannot release more stock than currently reserved.
+
+**Use Cases**:
+- Order cancellation: Release reserved stock back to available inventory
+- Order timeout: Release stock if order is not completed within time limit
+- Order completion: Stock is consumed (reserved → sold, not released)
+
+### Workflow 4: Product Deletion
 
 ```mermaid
 sequenceDiagram
