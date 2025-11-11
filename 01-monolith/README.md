@@ -108,14 +108,30 @@ The native executable will be generated in:
 - Linux/Mac: `target/product-catalog-service`
 - Windows: `target\product-catalog-service.exe`
 
+**⚠️ Important: Spring Boot Profiles are specified at runtime, NOT during build!**
+
+The `-Pnative` flag is a **Maven profile** (activates native build), not a Spring Boot profile. 
+Spring Boot profiles (`dev`, `prod`) must be specified **when you execute** the native binary, not during the build process.
+
 **Run the native executable:**
 
+Spring Boot profiles are determined at runtime. Specify the profile when running the executable:
+
 ```bash
-# Linux/Mac
+# Linux/Mac - Development profile (default, uses H2)
 ./target/product-catalog-service
 
-# Windows
+# Linux/Mac - Production profile (uses PostgreSQL)
+./target/product-catalog-service --spring.profiles.active=prod
+
+# Or using environment variable
+SPRING_PROFILES_ACTIVE=prod ./target/product-catalog-service
+
+# Windows - Development profile
 target\product-catalog-service.exe
+
+# Windows - Production profile
+target\product-catalog-service.exe --spring.profiles.active=prod
 ```
 
 **Note:** Native builds take significantly longer (several minutes) but produce an optimized standalone executable with:
