@@ -22,6 +22,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+// Note: This test uses Mockito which is not supported in native images
+// It will be automatically excluded during native builds via Maven configuration
 class ProductServiceTest {
 
     @Mock

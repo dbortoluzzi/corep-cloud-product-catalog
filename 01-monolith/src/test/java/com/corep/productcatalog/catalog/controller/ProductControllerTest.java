@@ -27,6 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ProductController.class)
 @ActiveProfiles("test")
+// Note: This test uses @MockBean which is not supported in native images
+// It will be automatically excluded during native builds via Maven configuration
 class ProductControllerTest {
 
     @Autowired

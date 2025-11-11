@@ -121,6 +121,19 @@ target\product-catalog-service.exe
 - 💾 Lower memory footprint
 - 📦 Single executable file (no JVM required)
 
+**Important Limitations:**
+- ⚠️ **Mockito not supported**: Tests using `@MockBean` or `@Mock` cannot run in native images
+  - `ProductControllerTest` and `ProductServiceTest` are automatically excluded during native builds (configured in `pom.xml` native profile)
+  - Integration tests (`ProductIntegrationTest`, `ProductRepositoryTest`) work fine with native builds (no Mockito)
+  - **Solution**: Use integration tests instead of unit tests with mocks for native builds
+- ⚠️ **Some libraries may not work**: Check [Spring Boot GraalVM limitations](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-with-GraalVM#known-graalvm-native-image-limitations)
+- ✅ **H2 database supported**: Can be used in native images (HSQLDB is not)
+- ✅ **Logback supported**: Log4j2 is not supported in native images
+
+**Testing Strategy for Native Builds:**
+- Standard JAR builds: All tests run (including Mockito-based tests)
+- Native builds: Only integration and repository tests run (Mockito tests excluded via Maven configuration)
+
 ### 3. Run the application
 
 #### Development Profile (default - uses H2 in-memory database)
