@@ -1,0 +1,109 @@
+spring:
+  application:
+    name: product-catalog-service
+
+  datasource:
+    url: jdbc:h2:mem:productdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    # Defer SQL initialization until after Hibernate creates tables
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # SQL initialization
+  # To use data.sql: set mode to 'always' and disable DataInitializer
+  # To use DataInitializer (current): set mode to 'never'
+  sql:
+    init:
+      mode: never  # Change to 'always' to use data.sql instead of DataInitializer
+
+  profiles:
+    active: dev
+
+logging:
+  level:
+    com.corep.productcatalog: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    # For cloud deployments, use JSON format:
+    # json: "{\"timestamp\":\"%d{yyyy-MM-dd HH:mm:ss}\",\"level\":\"%level\",\"logger\":\"%logger\",\"message\":\"%msg\"}"
+
+
+# SpringDoc OpenAPI (Swagger) configuration - Available in all profiles
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+
+# Application custom properties - Available in all profiles
+app:
+  name: Product Catalog Service
+  version: 1.0.0
+  pagination:
+    default-page-size: 10
+    max-page-size: 100
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: always
+
+---
+# Development Profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:h2:mem:productdb
+    driver-class-name: org.h2.Driver
+
+---
+# Production Profile (for Docker/Kubernetes)
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/productdb}
+    username: ${SPRING_DATASOURCE_USERNAME:admin}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+server:
+  port: ${SERVER_PORT:8080}
+
+
+
