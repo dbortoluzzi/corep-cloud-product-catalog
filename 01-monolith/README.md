@@ -517,7 +517,6 @@ This structure makes it easy to:
 
 - **[USE_CASE.md](../../USE_CASE.md)** - Business requirements, domain model, workflows, and architecture evolution
 - **[ROADMAP.md](../../ROADMAP.md)** - Detailed project evolution path from monolith to cloud-native microservices
-- **[CIRCULAR_DEPENDENCY_SOLUTIONS.md](./CIRCULAR_DEPENDENCY_SOLUTIONS.md)** - Solutions for circular dependencies in modular monoliths (refactoring, events, @Lazy, etc.)
 
 ## 🗺️ Roadmap
 
