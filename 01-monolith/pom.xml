@@ -113,11 +113,6 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <!-- GraalVM Native Image Plugin -->
-            <plugin>
-                <groupId>org.graalvm.buildtools</groupId>
-                <artifactId>native-maven-plugin</artifactId>
-            </plugin>
         </plugins>
     </build>
 
@@ -139,6 +134,10 @@
                             </excludes>
                         </configuration>
                     </plugin>
+                    <!-- GraalVM Native Image Plugin
+                         Configured to run automatically during the 'package' phase.
+                         Use: mvn -Pnative package (NOT native:compile)
+                    -->
                     <plugin>
                         <groupId>org.graalvm.buildtools</groupId>
                         <artifactId>native-maven-plugin</artifactId>

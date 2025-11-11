@@ -92,13 +92,15 @@ You can also build a native executable using GraalVM Native Image for faster sta
 
 Using Maven Wrapper:
 ```bash
-./mvnw -Pnative native:compile
+./mvnw -Pnative package
 ```
 
-Or as part of the package phase:
+Or with clean:
 ```bash
 ./mvnw -Pnative clean package
 ```
+
+**Important:** Use `package` (not `native:compile`) because the native build is configured to run automatically during the `package` phase when the `native` profile is active.
 
 (Replace `./mvnw` with `mvn` if using global Maven installation)
 
