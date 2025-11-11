@@ -145,14 +145,14 @@ erDiagram
 - **Output**: Updated inventory
 
 **FR-7**: Reserve Stock
-- **Actor**: Order Service (future)
+- **Actor**: Client
 - **Precondition**: Sufficient stock available
 - **Postcondition**: Stock reserved
 - **Input**: Product ID and quantity to reserve
 - **Output**: Updated inventory
 
 **FR-8**: Release Stock
-- **Actor**: Order Service (future)
+- **Actor**: Client
 - **Precondition**: Stock is reserved (reservedQuantity > 0)
 - **Postcondition**: Reserved stock released back to available inventory
 - **Input**: Product ID and quantity to release
@@ -279,19 +279,19 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    participant OrderService
+    participant Client
     participant InventoryService
     participant Database
 
-    OrderService->>InventoryService: Reserve Stock (productId, qty)
+    Client->>InventoryService: Reserve Stock (productId, qty)
     InventoryService->>Database: Check Available Stock
     Database-->>InventoryService: Current Stock
     alt Sufficient Stock
         InventoryService->>Database: Update Reserved Quantity
         Database-->>InventoryService: Updated Inventory
-        InventoryService-->>OrderService: Reservation Confirmed
+        InventoryService-->>Client: Reservation Confirmed
     else Insufficient Stock
-        InventoryService-->>OrderService: InsufficientStockException
+        InventoryService-->>Client: InsufficientStockException
     end
 ```
 
@@ -301,19 +301,19 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    participant OrderService
+    participant Client
     participant InventoryService
     participant Database
 
-    OrderService->>InventoryService: Release Stock (productId, qty)
+    Client->>InventoryService: Release Stock (productId, qty)
     InventoryService->>Database: Check Reserved Quantity
     Database-->>InventoryService: Current Reserved Stock
     alt Sufficient Reserved Stock
         InventoryService->>Database: Decrease Reserved Quantity
         Database-->>InventoryService: Updated Inventory
-        InventoryService-->>OrderService: Stock Released
+        InventoryService-->>Client: Stock Released
     else Insufficient Reserved Stock
-        InventoryService-->>OrderService: Error: Not enough reserved stock
+        InventoryService-->>Client: Error: Not enough reserved stock
     end
 ```
 
