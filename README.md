@@ -90,7 +90,6 @@ For detailed instructions, see [`01-monolith/README.md`](./01-monolith/README.md
 
 - **[ROADMAP.md](./ROADMAP.md)** - Detailed project evolution path from monolith to cloud-native microservices
 - **[USE_CASE.md](./USE_CASE.md)** - Business requirements, domain model, workflows, and architecture evolution
-- **[MICROSERVICES_PATTERNS.md](./MICROSERVICES_PATTERNS.md)** - Microservices patterns study guide: synchronous couplings, proposed patterns, and exercises
 
 ## 🎯 Learning Objectives
 
