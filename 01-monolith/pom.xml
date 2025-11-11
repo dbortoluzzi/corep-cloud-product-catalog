@@ -18,6 +18,19 @@
     <name>Product Catalog Service</name>
     <description>Product Catalog Management System - Cloud Computing Course Spike Project</description>
 
+    <organization>
+        <name>COREP - Università degli Studi di Torino</name>
+        <url>https://www.corep.it</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <name>Daniele Bortoluzzi</name>
+            <organization>COREP - Master Cloud Computing</organization>
+            <organizationUrl>https://www.mastercloudcomputing.it</organizationUrl>
+        </developer>
+    </developers>
+
     <properties>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>

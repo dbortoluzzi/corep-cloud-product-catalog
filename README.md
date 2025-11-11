@@ -2,6 +2,11 @@
 
 **Product Catalog Management System** - Cloud Computing Course Spike Project
 
+> **Copyright (c) 2024-2025 Daniele Bortoluzzi**  
+> **Master di I Livello in Cloud Computing**  
+> **Università degli Studi di Torino - COREP**  
+> Educational project for Cloud Computing Course
+
 This repository demonstrates the evolution of a Spring Boot application from a local monolith to cloud-native microservices, passing through Docker containerization and Kubernetes orchestration.
 
 ## 📁 Repository Structure
@@ -165,10 +170,24 @@ Phase 4: Kubernetes
 └─────────────────────────────────┘
 ```
 
-## 👥 Author
+## 👥 Author & License
 
-Project developed for **Corep - Cloud Computing Course**
+**Author**: Daniele Bortoluzzi  
+**Institution**: COREP - Master di I Livello in Cloud Computing  
+**University**: Università degli Studi di Torino  
+**Course**: Cloud Computing per Intelligenza Artificiale e Internet of Things  
+**Academic Year**: 2024/2025
 
-## 📄 License
+### Copyright Notice
 
-This project is for educational purposes.
+Copyright (c) 2024-2025 Daniele Bortoluzzi
+
+This project is an educational work developed for the Cloud Computing Master's program at the University of Turin, managed by COREP.
+
+### License
+
+This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE) file for details.
+
+**Educational Use**: This project is intended for educational purposes. Students are welcome to study, learn from, and use this code for their own learning. However, **direct copying or reuse of this project by other instructors or institutions without proper attribution is not permitted**.
+
+**Attribution**: If you use this project as a reference or base for your own work, please include proper attribution to the original author (Daniele Bortoluzzi) and the Master's program (Università degli Studi di Torino - COREP).
