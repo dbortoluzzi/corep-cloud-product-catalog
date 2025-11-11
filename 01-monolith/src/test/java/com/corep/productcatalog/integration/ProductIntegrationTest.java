@@ -123,7 +123,7 @@ class ProductIntegrationTest {
 
         mockMvc.perform(get("/api/v1/products"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.content.length()").value(2));
     }
 
     @Test
@@ -138,7 +138,7 @@ class ProductIntegrationTest {
         mockMvc.perform(get("/api/v1/products")
                         .param("category", "Electronics"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].category").value("Electronics"));
+                .andExpect(jsonPath("$.content.length()").value(1))
+                .andExpect(jsonPath("$.content[0].category").value("Electronics"));
     }
 }

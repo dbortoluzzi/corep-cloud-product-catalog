@@ -7,7 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -21,6 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(ProductController.class)
+@ActiveProfiles("test")
 class ProductControllerTest {
 
     @Autowired
@@ -74,14 +80,15 @@ class ProductControllerTest {
         product2.setPrice(new BigDecimal("149.99"));
 
         List<ProductDTO> products = Arrays.asList(product1, product2);
-        when(productService.getAllProducts()).thenReturn(products);
+        Page<ProductDTO> productPage = new PageImpl<>(products, PageRequest.of(0, 10), products.size());
+        when(productService.getAllProducts(any(Pageable.class))).thenReturn(productPage);
 
         // When & Then
         mockMvc.perform(get("/api/v1/products"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].id").value(1L))
-                .andExpect(jsonPath("$[1].id").value(2L));
+                .andExpect(jsonPath("$.content.length()").value(2))
+                .andExpect(jsonPath("$.content[0].id").value(1L))
+                .andExpect(jsonPath("$.content[1].id").value(2L));
     }
 
     @Test

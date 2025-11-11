@@ -11,6 +11,12 @@ spring:
       ddl-auto: create-drop
     show-sql: false
 
+  # Disable data.sql execution in tests
+  # Tests should manage their own data via @BeforeEach or @Sql annotations
+  sql:
+    init:
+      mode: never
+
 logging:
   level:
     com.corep.productcatalog: DEBUG
