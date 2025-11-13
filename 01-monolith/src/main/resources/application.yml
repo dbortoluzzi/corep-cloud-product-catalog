@@ -17,12 +17,12 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+    show-sql: false
     # Defer SQL initialization until after Hibernate creates tables
     defer-datasource-initialization: true
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
 
   # SQL initialization
   # To use data.sql: set mode to 'always' and disable DataInitializer
@@ -38,9 +38,9 @@ logging:
   level:
     com.corep.productcatalog: INFO
     org.springframework.web: INFO
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: INFO
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} %clr([%5level]) - %msg%n"
     # For cloud deployments, use JSON format:
     # json: "{\"timestamp\":\"%d{yyyy-MM-dd HH:mm:ss}\",\"level\":\"%level\",\"logger\":\"%logger\",\"message\":\"%msg\"}"
 
