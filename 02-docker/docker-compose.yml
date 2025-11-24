@@ -1,0 +1,59 @@
+# Docker Compose v2 - version field is optional
+services:
+  # PostgreSQL Database Service
+  db:
+    image: postgres:15-alpine
+    container_name: product-catalog-postgres
+    environment:
+      POSTGRES_DB: catalog_db
+      POSTGRES_USER: catalog_user
+      POSTGRES_PASSWORD: catalog_password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - appnet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U catalog_user -d catalog_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Application Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: product-catalog-app
+    ports:
+      - "8080:8080"
+    environment:
+      # Activate production profile (already configured in application.yml)
+      SPRING_PROFILES_ACTIVE: prod
+      # Override datasource settings for Docker Compose
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/catalog_db
+      SPRING_DATASOURCE_USERNAME: catalog_user
+      SPRING_DATASOURCE_PASSWORD: catalog_password
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - appnet
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+# Named volume for database persistence
+volumes:
+  db_data:
+    driver: local
+
+# Custom bridge network for service-to-service communication
+networks:
+  appnet:
+    driver: bridge
+
