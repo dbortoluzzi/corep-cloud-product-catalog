@@ -13,9 +13,11 @@
 - `docker-compose.yml` for orchestrating app and database services
 
 ## Prerequisites
-- Docker and Docker Compose installed on your machine
+- Docker and Docker Compose v2 installed (Docker Compose is included in Docker Desktop or can be installed as a plugin)
 - Maven installed (to compile the project)
 - Git installed (to clone the repository)
+
+**Note**: This exercise uses Docker Compose v2 (`docker compose` command). If you have the older v1 (`docker-compose`), you can still use it, but v2 is recommended.
 
 ## Project Setup
 
@@ -174,9 +176,10 @@ In the `02-docker` directory, create a file named `docker-compose.yml`:
 - Include healthcheck using `pg_isready` command
 
 **Top-level requirements:**
-- Define version: '3.8'
 - Create named volume `db_data` with local driver
 - Create custom bridge network `appnet`
+
+**Note**: Docker Compose v2 doesn't require a `version` field. If you're using v1, you can add `version: '3.8'` at the top, but it's optional in v2.
 
 **Hints:**
 - Service names become hostnames (e.g., service `db` is reachable as `db:5432`)
@@ -189,10 +192,10 @@ In the `02-docker` directory, create a file named `docker-compose.yml`:
 
 ```bash
 # Build images and start services in background
-docker-compose up -d --build
+docker compose up -d --build
 
 # Verify both services are running
-docker-compose ps
+docker compose ps
 
 # Check for "healthy" status on both services
 ```
@@ -210,17 +213,17 @@ curl http://localhost:8080/actuator/health
 curl http://localhost:8080/api/v1/products
 
 # Check app logs
-docker-compose logs -f app
+docker compose logs -f app
 ```
 
 ### Step 9: Clean Up
 
 ```bash
 # Stop and remove all services (keep volumes for data persistence)
-docker-compose down
+docker compose down
 
 # Stop and remove services + delete volumes (careful! data loss)
-docker-compose down -v
+docker compose down -v
 ```
 
 ## Expected Outcomes
@@ -239,13 +242,13 @@ docker-compose down -v
 ### Common Issues
 
 **Container won't start**:
-- Check logs: `docker-compose logs app` or `docker-compose logs db`
+- Check logs: `docker compose logs app` or `docker compose logs db`
 - Verify JAR file exists: `ls -la app.jar`
 - Check if ports are already in use: `netstat -tuln | grep 8080` or `netstat -tuln | grep 5432`
 
 **Database connection errors**:
-- Verify `db` service is healthy: `docker-compose ps`
-- Check network connectivity: `docker-compose exec app ping db`
+- Verify `db` service is healthy: `docker compose ps`
+- Check network connectivity: `docker compose exec app ping db`
 - Verify environment variables match between `app` and `db` services
 
 **Health check failures**:
@@ -256,18 +259,18 @@ docker-compose down -v
 
 ```bash
 # View all container details
-docker-compose ps -a
+docker compose ps -a
 
 # Stream logs from specific service
-docker-compose logs -f app
-docker-compose logs -f db
+docker compose logs -f app
+docker compose logs -f db
 
 # View last N lines of logs
-docker-compose logs --tail=50 app
+docker compose logs --tail=50 app
 
 # Execute command in running container
-docker-compose exec app sh
-docker-compose exec db psql -U catalog_user -d catalog_db
+docker compose exec app sh
+docker compose exec db psql -U catalog_user -d catalog_db
 
 # Inspect network
 docker network inspect 02-docker_appnet
@@ -276,9 +279,9 @@ docker network inspect 02-docker_appnet
 docker volume inspect 02-docker_db_data
 
 # Restart a specific service
-docker-compose restart app
+docker compose restart app
 
 # Rebuild and restart
-docker-compose up -d --build
+docker compose up -d --build
 ```
 

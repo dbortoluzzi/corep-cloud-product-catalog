@@ -19,9 +19,11 @@ This directory contains Docker configuration files to containerize the Spring Bo
 
 ## Prerequisites
 
-- Docker and Docker Compose installed
+- Docker and Docker Compose v2 installed (Docker Compose is included in Docker Desktop or can be installed as a plugin)
 - Maven installed (to compile the project)
 - The JAR file must be built in `../01-monolith/target/`
+
+**Note**: This project uses Docker Compose v2 (`docker compose` command). If you have the older v1 (`docker-compose`), you can still use it, but v2 is recommended.
 
 ## Quick Start
 
@@ -46,17 +48,17 @@ cp ../01-monolith/target/product-catalog-service-1.0.0-SNAPSHOT.jar app.jar
 
 ```bash
 # Build images and start services in background
-docker-compose up -d --build
+docker compose up -d --build
 
 # View logs
-docker-compose logs -f app
+docker compose logs -f app
 ```
 
 ### 4. Verify Services
 
 ```bash
 # Check service status
-docker-compose ps
+docker compose ps
 
 # Test application health
 curl http://localhost:8080/actuator/health
@@ -69,10 +71,10 @@ curl http://localhost:8080/api/v1/products
 
 ```bash
 # Stop services (keeps volumes)
-docker-compose down
+docker compose down
 
 # Stop services and remove volumes (data loss)
-docker-compose down -v
+docker compose down -v
 ```
 
 ## Architecture
@@ -120,10 +122,10 @@ For debugging commands and troubleshooting, see the "Debugging Commands" section
 **Quick commands**:
 ```bash
 # View logs
-docker-compose logs -f app
+docker compose logs -f app
 
 # Check service status
-docker-compose ps
+docker compose ps
 ```
 
 ## Exercise
