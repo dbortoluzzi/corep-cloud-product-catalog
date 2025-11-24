@@ -79,12 +79,14 @@ corep-cloud-product-catalog/
 
 ## 🚀 Quick Start
 
+**Prerequisites**: Make sure you have the required software installed. See **[REQUIREMENTS.md](./REQUIREMENTS.md)** for details.
+
 ### Phase 1: Monolith
 
 ```bash
 cd 01-monolith
-mvn clean install
-mvn spring-boot:run
+./mvnw clean install
+./mvnw spring-boot:run
 ```
 
 The application will be available at `http://localhost:8080`
@@ -93,6 +95,7 @@ For detailed instructions, see [`01-monolith/README.md`](./01-monolith/README.md
 
 ## 📚 Documentation
 
+- **[REQUIREMENTS.md](./REQUIREMENTS.md)** - System requirements and prerequisites for all project phases
 - **[ROADMAP.md](./ROADMAP.md)** - Detailed project evolution path from monolith to cloud-native microservices
 - **[USE_CASE.md](./USE_CASE.md)** - Business requirements, domain model, workflows, and architecture evolution
 
