@@ -50,3 +50,8 @@ logs/
 
 # Cursor
 .cursor/
+
+# Docker build artifacts
+**/app.jar
+*.jar
+!**/maven-wrapper.jar
